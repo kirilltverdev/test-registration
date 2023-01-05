@@ -52,7 +52,7 @@
         :prefix="country.idd"
         v-model="phone"
         label="Phone"
-        v-mask="'##-###-###-##'"
+        v-mask="'## ###-##-##'"
         :rules="phoneRules"
         :disabled="!country.idd"
       ></v-text-field>

@@ -4,8 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import vuetify from './plugins/vuetify'
-import {VueMaskDirective} from 'v-mask'
+import VueMask from 'v-mask'
 
+Vue.use(VueMask)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -13,7 +14,7 @@ new Vue({
   el: '#app',
   router,
   vuetify,
+  VueMask,
   components: {App},
   template: '<App/>'
 })
-Vue.directive('mask', VueMaskDirective)
