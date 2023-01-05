@@ -20,6 +20,14 @@
       required
     ></v-text-field>
 
+    <v-text-field
+      type="password"
+      v-model="password"
+      :rules="passwordRules"
+      label="Password"
+      required
+    ></v-text-field>
+
     <v-autocomplete
       v-model="country"
       :items="countries"
@@ -69,12 +77,17 @@ export default {
     name: '',
     nameRules: [
       v => !!v || 'Name is required',
-      v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+      v => (v && v.length <= 20) || 'Name must be less than 10 characters'
     ],
     email: '',
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+    ],
+    password: '',
+    passwordRules: [
+      v => !!v || 'Password is required',
+      v => (v && v.length >= 8) || 'Password must be greater than 8 characters'
     ],
     country: {},
     phone: '',
@@ -89,10 +102,10 @@ export default {
       const formValid = this.$refs.form.validate()
       if (formValid) {
         // Should be vuex action in real project
-        const {name, email, country, phone} = this
+        const {name, email, country, phone, password} = this
 
         try {
-          await axios.post('/user', {name, email, phone, country})
+          await axios.post('http://127.0.0.1/api/register', {name, email, phone, country, password})
           this.$refs.form.reset()
         } catch (e) {
           console.log(e)
