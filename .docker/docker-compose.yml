@@ -1,0 +1,51 @@
+version: "3.9"
+services:
+
+  php:
+    platform: linux/x86_64
+    build:
+      args:
+        user: ubuntu
+        uid: 1000
+      context: ./builds/php
+    volumes:
+      - ./../src:/var/www/app
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    container_name: backend
+    restart: always
+    working_dir: /var/www/app
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+
+  mysql:
+    platform: linux/x86_64
+    image: mysql:8.0.28
+    container_name: database
+    restart: always
+    command: "--default-authentication-plugin=mysql_native_password"
+    ports:
+      - 3333:3306
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./builds/nginx
+    volumes_from:
+      - php
+    ports:
+      - $NGINX_PORT:80
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
