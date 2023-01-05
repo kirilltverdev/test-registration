@@ -1,16 +1,13 @@
-# Test
-### Requirements
+# Installation
 
-- docker
-- docker-compose
-- php 8.1
-
----
-
-### Installation
+## Backend
 
 Run: `./start.sh`
 
-Wait till script finish setup 
+Wait till script finish setup
 
-Open http://localhost
+## Frontend
+
+Run: `yarn && yarn start`
+
+Open http://localhost:8080
